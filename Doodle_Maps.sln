@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doodle_Maps", "Doodle_Maps\Doodle_Maps.csproj", "{A8B7F25A-0323-46AD-9D8C-987D0DB43E45}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A8B7F25A-0323-46AD-9D8C-987D0DB43E45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8B7F25A-0323-46AD-9D8C-987D0DB43E45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8B7F25A-0323-46AD-9D8C-987D0DB43E45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8B7F25A-0323-46AD-9D8C-987D0DB43E45}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
