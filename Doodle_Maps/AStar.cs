@@ -56,12 +56,12 @@ public class AStar : IPathFinder
             int r = p.Row + dirs[i, 0];
             int c = p.Column + dirs[i, 1];
 
-            if (r >= 0 && c >= 0 &&
-                r < map.GetLength(0) &&
-                c < map.GetLength(1) &&
-                map[r, c] != "█")
+            if (c >= 0 && r >= 0 &&
+                c < map.GetLength(0) &&
+                r < map.GetLength(1) &&
+                map[c, r] != "█")
             {
-                neighbors.Add(new Point(r, c));
+                neighbors.Add(new Point(c, r));
             }
         }
 

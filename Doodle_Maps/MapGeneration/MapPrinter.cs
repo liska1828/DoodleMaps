@@ -6,8 +6,8 @@ public class MapPrinter
     {
         var pathSet = new HashSet<Point>(path ?? new List<Point>());
 
-        int height = maze.GetLength(0);
-        int width = maze.GetLength(1);
+        int width = maze.GetLength(0);
+        int height = maze.GetLength(1);
 
         for (int y = 0; y < height; y++)
         {
@@ -17,9 +17,9 @@ public class MapPrinter
                 string toPrint;
 
                 if (pathSet.Contains(point))
-                    toPrint = "**"; // маршрут виділяємо зірочками
+                    toPrint = "**"; 
                 else
-                    toPrint = maze[y, x] + "" + maze[y, x]; // подвоюємо символи
+                    toPrint = maze[x, y] + maze[x, y];
 
                 Console.Write(toPrint);
             }
