@@ -1,7 +1,6 @@
 namespace Doodle_Maps;
 
 using Doodle_Maps.MapGeneration;
-
 public class BreadthFirstSearch : IPathFinder
 {
     public (List<Point>, int) FindPath(string[,] map, Point start, Point destination)
@@ -22,14 +21,13 @@ public class BreadthFirstSearch : IPathFinder
 
             if (current.Equals(destination))
             {
-                return (ReconstructPath(origins, start, destination), visitedCount);
+                return (Reconstruct(origins, start, destination), visitedCount);
             }
 
-            var neighbours = MapGenerator.GetNeighbours(current.Column, current.Row, map, 1, true);
-
-            foreach (var next in neighbours)
+            foreach (var next in GetNeighbours(current, map))
             {
-                if (visited.Contains(next)) continue;
+                if (visited.Contains(next))
+                    continue;
 
                 visited.Add(next);
                 origins[next] = current;
@@ -40,7 +38,31 @@ public class BreadthFirstSearch : IPathFinder
         return (new List<Point>(), visitedCount);
     }
 
-    private List<Point> ReconstructPath(Dictionary<Point, Point> origins, Point start, Point end)
+    private List<Point> GetNeighbours(Point p, string[,] map)
+    {
+        int[] dx = { -1, -1, -1, 0, 0, 1, 1, 1 };
+        int[] dy = { -1, 0, 1, -1, 1, -1, 0, 1 };
+
+        var result = new List<Point>();
+
+        for (int i = 0; i < 8; i++)
+        {
+            int x = p.Column + dx[i];
+            int y = p.Row + dy[i];
+
+            if (x >= 0 && y >= 0 &&
+                x < map.GetLength(1) &&
+                y < map.GetLength(0))
+            {
+                if (map[y, x] != "#")
+                    result.Add(new Point(x, y));
+            }
+        }
+
+        return result;
+    }
+
+    private List<Point> Reconstruct(Dictionary<Point, Point> origins, Point start, Point end)
     {
         var path = new List<Point>();
         var current = end;
@@ -48,6 +70,10 @@ public class BreadthFirstSearch : IPathFinder
         while (!current.Equals(start))
         {
             path.Add(current);
+
+            if (!origins.ContainsKey(current))
+                return new List<Point>();
+
             current = origins[current];
         }
 
@@ -55,5 +81,17 @@ public class BreadthFirstSearch : IPathFinder
         path.Reverse();
 
         return path;
+    }
+
+    public List<Point> FindPathThroughMiddle(string[,] map, Point start, Point middle, Point end)
+    {
+        var first = FindPath(map, start, middle);
+        var second = FindPath(map, middle, end);
+
+        if (first.Item1.Count == 0 || second.Item1.Count == 0)
+            return new List<Point>();
+
+        first.Item1.AddRange(second.Item1.Skip(1));
+        return first.Item1;
     }
 }

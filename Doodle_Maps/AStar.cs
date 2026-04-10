@@ -43,7 +43,7 @@ public class AStar : IPathFinder
 
     private int Heuristic(Point a, Point b)
     {
-        return Math.Abs(a.Row - b.Row) + Math.Abs(a.Column - b.Column);
+        return (Math.Abs(a.Row - b.Row) + Math.Abs(a.Column - b.Column)) * 600;
     }
 
     private List<Point> GetNeighbors(Point p, string[,] map)

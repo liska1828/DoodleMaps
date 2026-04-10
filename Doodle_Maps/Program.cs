@@ -7,29 +7,43 @@ class Program
     {
         var options = new MapGeneratorOptions
         {
-            Height = 10,
+            Height = 30,
             Width = 30,
-            Noise = 0.1f,
+            Noise = 0.3f,
             AddTraffic = true,
-            TrafficSeed = 1234
+            TrafficSeed = 1234,
+            Seed = 1
         };
+
         var generator = new MapGenerator(options);
         var map = generator.Generate();
 
         var start = new Point(0, 0);
-        var end = new Point(options.Width - 2, options.Height - 2);
+        var mid = new Point(1, 3);
+        var end = new Point(2, 5);
 
         Console.WriteLine("Generated map:");
         new MapPrinter().Print(map, new List<Point>());
 
         var bfs = new BreadthFirstSearch();
-        var (pathBfs, visitedBfs) = bfs.FindPath(map, start, end);
-        PrintResult("BFS", map, pathBfs, visitedBfs);
+
+        var pathBfs = bfs.FindPathThroughMiddle(map, start, mid, end);
+
+        Console.WriteLine("\nBFS:");
+        Console.WriteLine($"Довжина шляху: {pathBfs.Count}");
+        new MapPrinter().Print(map, pathBfs);
         
+
         var dijkstra = new DijkstraPathFinder();
         var (pathDij, visitedDij) = dijkstra.FindPath(map, start, end);
         PrintResult("Dijkstra", map, pathDij, visitedDij);
         
+        var astar = new AStar();
+        var (pathAst, visitedAst) = astar.FindPath(map, start, end);
+        PrintResult("A*", map, pathAst, visitedAst);
+
+        Console.WriteLine(pathAst.Count);
+
         if (pathBfs.Count < pathDij.Count)
             Console.WriteLine($"\nНайкоротший шлях: BFS ({pathBfs.Count} кроків)");
         else if (pathDij.Count < pathBfs.Count)
